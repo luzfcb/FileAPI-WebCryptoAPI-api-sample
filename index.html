@@ -73,23 +73,7 @@
         }
         return hexBytes.join("");
     }
-    function dumpObject(o, pfx, sep) {
-        var p;
-        var s = "";
 
-        sep = (typeof sep == "undefined") ? " = " : sep;
-        pfx = (typeof pfx == "undefined") ? "" : pfx;
-
-        for (p in o) {
-            if (typeof (o[p]) != "function")
-                s += pfx + p + sep + o[p] + "\n";
-            else
-                s += pfx + p + sep + "function\n";
-        }
-
-        return s;
-
-    }
     function handleFileSelect(evt) {
         var files = evt.target.files; // FileList object
 
@@ -105,9 +89,6 @@
             // Closure to capture the file information.
             reader.onload = (function (theFile) {
                 return function (e) {
-                    console.log(dumpObject(e.target));
-                    console.log('thefile:');
-                    console.log(dumpObject(theFile));
 
                     window.crypto.subtle.digest(
                             {
