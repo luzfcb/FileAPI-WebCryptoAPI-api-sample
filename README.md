@@ -7,6 +7,14 @@ This is a simple example of using FILEAPI and WebCryptoAPI to generate SHA-256 h
 
 please do not use it. This only was used to my learning
 
+## Live sample:
+
+https://luzfcb.github.io/FileAPI-WebCryptoAPI-api-sample/
+
+## Known Issues:
+WebCryptoAPI only work on Google Chrome if connection is secure (https)
+
+
 
 ## References:
 
@@ -25,12 +33,6 @@ http://caniuse.com/#feat=cryptography
 
 http://caniuse.com/#search=FileAPI
 
-## Live sample:
-
-https://luzfcb.github.io/FileAPI-WebCryptoAPI-api-sample/
-
-## Known Issues:
-WebCryptoAPI only work on Google Chrome if connection is secure (https)
 
 
 # CODE:
