@@ -65,34 +65,23 @@ WebCryptoAPI only work on Google Chrome if connection is secure (https)
         }
         return hexBytes.join("");
     }
-    function dumpObject(o, pfx, sep) {
-        var p;
-        var s = "";
-        sep = (typeof sep == "undefined") ? " = " : sep;
-        pfx = (typeof pfx == "undefined") ? "" : pfx;
-        for (p in o) {
-            if (typeof (o[p]) != "function")
-                s += pfx + p + sep + o[p] + "\n";
-            else
-                s += pfx + p + sep + "function\n";
-        }
-        return s;
-    }
+
     function handleFileSelect(evt) {
         var files = evt.target.files; // FileList object
+
         // Loop through the FileList and generate shasum
         for (var i = 0, f; f = files[i]; i++) {
+
             // Only process image files.
             //if (!f.type.match('image.*')) {
             //    continue;
             //}
+
             var reader = new FileReader();
             // Closure to capture the file information.
             reader.onload = (function (theFile) {
                 return function (e) {
-                    console.log(dumpObject(e.target));
-                    console.log('thefile:');
-                    console.log(dumpObject(theFile));
+
                     window.crypto.subtle.digest(
                             {
                                 name: "SHA-256"
@@ -101,7 +90,7 @@ WebCryptoAPI only work on Google Chrome if connection is secure (https)
                     )
                             .then(function (hash) {
                                 file_informations = JSON.stringify({
-                                  'name': theFile.name,
+                                    'name': theFile.name,
                                     'lastModified': theFile.lastModified,
                                     'lastModifiedDate': theFile.lastModifiedDate,
                                     'size': theFile.size,
@@ -109,14 +98,17 @@ WebCryptoAPI only work on Google Chrome if connection is secure (https)
                                     'hash_type': 'SHA-256',
                                     'hash_value': bytesToHexString(hash)
                                 });
+
                                 //document.getElementById('id_textarea').value += theFile.name + ':SHA-256:' + bytesToHexString(hash) + '\n';
                                 document.getElementById('id_textarea').value += file_informations + ',\n';
+
                             })
                             .catch(function (err) {
                                 console.error(err);
                             });
                 };
             })(f);
+
             // Read in the image file as a data URL.
             reader.readAsArrayBuffer(f);
         }
