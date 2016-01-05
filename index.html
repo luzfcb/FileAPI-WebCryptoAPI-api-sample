@@ -6,7 +6,9 @@
 </head>
 <body>
 
-<h1>FileAPI + WebCryptoAPI</h1>
+<h1><a href="https://luzfcb.github.io/FileAPI-WebCryptoAPI-api-sample/">FileAPI + WebCryptoAPI Sample</a></h1>
+
+<a href="https://github.com/luzfcb/FileAPI-WebCryptoAPI-api-sample">source on github</a>
 
 <p>This is a simple example of using <a href="http://www.w3.org/TR/file-upload/">FILEAPI</a> and <a
         href="http://www.w3.org/TR/WebCryptoAPI/">WebCryptoAPI</a> to generate SHA-256 hash and get some more
@@ -43,6 +45,7 @@
 <h2>Tests:</h2>
 
 
+
 <p>
     <label for="id_file">File:</label>
     <input id="id_file" name="file_input" type="file" multiple>
@@ -51,6 +54,8 @@
 <p>
     <label for="id_textarea">checksum:</label>
     <textarea id="id_textarea" rows="5" cols="140"></textarea>
+    <label for="id_hash_time">Hash generated in client-side in:</label>
+    <input id="id_hash_time" name="hash_time" type="text">
 </p>
 
 
@@ -89,13 +94,17 @@
             // Closure to capture the file information.
             reader.onload = (function (theFile) {
                 return function (e) {
+                    
                     var hash_type = "SHA-256";
+                    var final_time;
+                    var start_time = performance.now();
                     window.crypto.subtle.digest(
                             {
                                 name: hash_type
                             },
                             e.target.result
                     ).then(function (hash) {
+                        final_time = performance.now();
                         file_informations = JSON.stringify({
                             'name': theFile.name,
                             'lastModified': theFile.lastModified,
@@ -105,14 +114,14 @@
                             'hash_type': hash_type,
                             'hash_value': bytesToHexString(hash)
                         });
-
                         //document.getElementById('id_textarea').value += theFile.name + ':SHA-256:' + bytesToHexString(hash) + '\n';
                         document.getElementById('id_textarea').value += file_informations + ',\n';
-
+                        document.getElementById('id_hash_time').value = "" + (final_time - start_time )+ " milliseconds";
                     })
                     .catch(function (err) {
                         console.error(err);
                     });
+                    
                 };
             })(f);
 
