@@ -89,31 +89,30 @@
             // Closure to capture the file information.
             reader.onload = (function (theFile) {
                 return function (e) {
-
+                    var hash_type = "SHA-256";
                     window.crypto.subtle.digest(
                             {
-                                name: "SHA-256"
+                                name: hash_type
                             },
                             e.target.result
-                    )
-                            .then(function (hash) {
-                                file_informations = JSON.stringify({
-                                    'name': theFile.name,
-                                    'lastModified': theFile.lastModified,
-                                    'lastModifiedDate': theFile.lastModifiedDate,
-                                    'size': theFile.size,
-                                    'file_type': theFile.type,
-                                    'hash_type': 'SHA-256',
-                                    'hash_value': bytesToHexString(hash)
-                                });
+                    ).then(function (hash) {
+                        file_informations = JSON.stringify({
+                            'name': theFile.name,
+                            'lastModified': theFile.lastModified,
+                            'lastModifiedDate': theFile.lastModifiedDate,
+                            'size': theFile.size,
+                            'file_type': theFile.type,
+                            'hash_type': hash_type,
+                            'hash_value': bytesToHexString(hash)
+                        });
 
-                                //document.getElementById('id_textarea').value += theFile.name + ':SHA-256:' + bytesToHexString(hash) + '\n';
-                                document.getElementById('id_textarea').value += file_informations + ',\n';
+                        //document.getElementById('id_textarea').value += theFile.name + ':SHA-256:' + bytesToHexString(hash) + '\n';
+                        document.getElementById('id_textarea').value += file_informations + ',\n';
 
-                            })
-                            .catch(function (err) {
-                                console.error(err);
-                            });
+                    })
+                    .catch(function (err) {
+                        console.error(err);
+                    });
                 };
             })(f);
 
